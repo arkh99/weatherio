@@ -63,7 +63,7 @@ export const aqiText = {
     },
 
     2: {
-        level: fair,
+        level: "fair",
         essage: "Air quality is acceptable, however, for some pollutions there may be a moderate health for a very small number of people who are unusually sensetive to air pollution."
     },
 
