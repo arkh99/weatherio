@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 const api_key = "1792672954c7ee6b677c82b3196b7dd8";
 
 export const fetchData = function (URL, callback) {
-    fetch(`${URL}&appid=${api_key}`)
+    fetch(URL)
         .then(res => {
             if (!res.ok) {
                 throw new Error(`Failed to fetch: ${res.status} ${res.statusText}`);

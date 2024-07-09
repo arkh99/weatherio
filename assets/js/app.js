@@ -234,6 +234,9 @@ export const updateWeather = function (lat, lon) {
 
   });
 
+
+  
+/* there is a fucking bug here */
   fetchData(url.forecast(lat, lon), function (forecast) {
     const {
       list: forecastList,
@@ -252,7 +255,6 @@ export const updateWeather = function (lat, lon) {
         <ul class="slider-list" data-wind>
         </ul>
     </div>
-
     `;
 
     for (const [index, data] of forecastList.entries()) {
@@ -264,12 +266,11 @@ export const updateWeather = function (lat, lon) {
         weather,
         wind: {deg: windDirection, speed: windSpeed }
       } = data
-
       const [{ icon, description }] = weather
       
       const tempLi = document.createElement("li");
       tempLi.classList.add("slider-item");
-
+      
       tempLi.innerHTML = `
       <div class="card card-sm slider-card">
           <p class="body-3">
@@ -280,10 +281,11 @@ export const updateWeather = function (lat, lon) {
 
           <p class="body-3">${parseInt(temp)}&deg;</p>
         </div>
-      `
+        
+      `;
       hourlySection.querySelector("[data-temp]").appendChild(tempLi);
 
-      const windLi = document.createElement("li")
+      const windLi = document.createElement("li");
       windLi.classList.add("slider-item");
 
       windLi.innerHTML = `
@@ -295,7 +297,8 @@ export const updateWeather = function (lat, lon) {
 
           <p class="body-3">${parseInt(module.mps_to_kmh(windSpeed))} km / h</p>
       </div>
-      `
+      `;
+
       hourlySection.querySelector("[data-wind]").appendChild(windLi)
     }
 

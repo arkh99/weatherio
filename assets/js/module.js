@@ -49,5 +49,27 @@ export const url = {
   geo: (query) => `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${apiKey}`,
   currentWeather: (lat, lon) => `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`,
   reverseGeo: (lat, lon) => `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`,
-  airPollution: (lat, lon) => `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}`
+  airPollution: (lat, lon) => `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}`,
+  forecast: (lat, lon) => `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${api_key}`
 };
+
+export const getHours = function (timeUnix, timezone) {
+    const date = new Date((timeUnix + timezone) * 1000);
+    const hours = date.getUTCHours();
+    const period = hours >= 12 ? "PM" : "AM";
+
+    return `${hours % 12 || 12} ${period}`;
+}
+
+export const mps_to_kmh = mps => {
+    const mph = mps * 3600;
+    return mph / 1000;
+}
+
+export const getDate = function (dateUnix, timezone) {
+    const date = new Date((dateUnix + timezone) * 1000);
+    const weekDayName = weekDayNames[date.getUTCDay()];
+    const monthName = monthNames[date.getUTCMonth()];
+
+    return `${weekDayName} ${date.getUTCDate()}, ${monthName}`
+}

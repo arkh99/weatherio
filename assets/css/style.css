@@ -902,6 +902,7 @@ article.container::before {
   .hourly-forecast .card-sm {
     padding: 16px;
   }
+
 }
 
 @media (min-width: 1200px) {
