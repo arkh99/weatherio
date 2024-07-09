@@ -1,84 +1,53 @@
-'use strict';
+"use strict";
 
 export const weekDayNames = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
+  "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 ];
 
 export const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
 
-export const getData = function (dateUnix, timezone) {
-    const date = new Date((dateUnix + timezone) * 1000);
-    const weekDayName = weekDayNames[date.getUTCDay()];
-    const monthName = monthNames[date.getUTCMonth()];
-
-    return `${weekDayName} ${date.getUTCDate()}, ${monthName}`;
-}
-    
-export const getTime = function (timeUnix, tomezone) {
-    const date = new Date((timeUnix + timezone) * 1000);
-    const hours = date.getDateUTCHours();
-    const minutes = date.getUTCMinutes();
-    const period = hours >= 12 ? "PM" : "AM";
-
-    return `${hours % 12 || 12}:${minutes} ${period}`
-}
-
-
-export const getHours = function (timeUnix, tomezone) {
-    const date = new Date((timeUnix + timezone) * 1000);
-    const hours = date.getDateUTCHours();
-    const period = hours >= 12 ? "PM" : "AM";
-
-    return `${hours % 12 || 12} ${period}`;
-}
-
-export const mps_to_kmh = mps => {
-    const mph = mps * 3600;
-    return mph / 1000
-}
-
 export const aqiText = {
-    1: {
-        level: "Good",
-        message: "Air quality is considered satisfactory, and air pollution poses little or no risk."
-    },
+  1: { level: "Good", message: "Air quality is considered satisfactory, and air pollution poses little or no risk." },
+  2: { level: "Fair", message: "Air quality is acceptable; however, for some pollutants, there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution." },
+  3: { level: "Moderate", message: "Members of sensitive groups may experience health effects. The general public is not likely to be affected." },
+  4: { level: "Poor", message: "Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects." },
+  5: { level: "Very Poor", message: "Health alert: everyone may experience more serious health effects." }
+};
 
-    2: {
-        level: "fair",
-        essage: "Air quality is acceptable, however, for some pollutions there may be a moderate health for a very small number of people who are unusually sensetive to air pollution."
-    },
+export const fetchData = function (url, callback) {
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => callback(data))
+    .catch(error => console.error("Fetch error:", error));
+};
 
-    3: {
-        level: "Moderate",
-        message: "Members of sensitive groups may experience health effects. The general public is not likely to be affected."
-    },
-    
-    4: {
-        level: "Poor",
-        message: "Everyone may begin to experience health effects; members of sensitive groups may experiece more serious health effects."
-    },
+export const getData = function (timeUnix, timezone) {
+  const date = new Date((timeUnix + timezone) * 1000);
+  const weekDay = weekDayNames[date.getUTCDay()];
+  const month = monthNames[date.getUTCMonth()];
+  const day = date.getUTCDate();
+  const hour = date.getUTCHours();
+  const minute = date.getUTCMinutes().toString().padStart(2, "0");
+  return `${weekDay}, ${month} ${day} ${hour}:${minute}`;
+};
 
-    5: {
-        level: "Very Poor",
-        message: "Health warnings of emergency conditions. The entire population is more likely to be affected."
-    }
-}
+export const getTime = function (timeUnix, timezone) {
+  const date = new Date((timeUnix + timezone) * 1000);
+  const hour = date.getUTCHours();
+  const minute = date.getUTCMinutes().toString().padStart(2, "0");
+  return `${hour}:${minute}`;
+};
+
+export const url = {
+  geo: (query) => `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${apiKey}`,
+  currentWeather: (lat, lon) => `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`,
+  reverseGeo: (lat, lon) => `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`,
+  airPollution: (lat, lon) => `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}`
+};
