@@ -42,3 +42,13 @@ Loading Indicators: Used to indicate data fetching processes.
 Search Autocomplete: Provided search suggestions based on user input to enhance the search experience.
 Conclusion
 This Weather App project demonstrates a comprehensive set of JavaScript skills, from basic DOM manipulation and event handling to advanced API integration and asynchronous operations. The project showcases how to build a dynamic, user-friendly web application that interacts with third-party APIs and provides real-time data to users.
+
+DEMO: 
+
+![Screenshot 2024-07-10 162642](https://github.com/arkh99/weatherio/assets/124736009/f936ecc3-584e-4f94-a009-081c76f97df9)
+
+
+![Screenshot 2024-07-10 162706](https://github.com/arkh99/weatherio/assets/124736009/dd593854-29a6-4ec2-ac13-6cc058050ae1)
+
+
+![Screenshot 2024-07-10 162724](https://github.com/arkh99/weatherio/assets/124736009/8a314a91-2013-45f2-96f8-1920f8e176d8)
