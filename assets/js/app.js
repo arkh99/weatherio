@@ -74,6 +74,13 @@ const currentLocationBtn = document.querySelector("[data-current-location-btn]")
 const errorContent = document.querySelector("[data-error-content]");
 
 export const updateWeather = function (lat, lon) {
+  
+  loading.style.display = "gird";
+  container.style.overflowY = "hidden";
+  container.classList.remove("fade-in");
+  errorContent.style.display = "none"
+
+  
   const currentWeatherSection = document.querySelector("[data-current-weather]");
   const highlightSection = document.querySelector("[data-highlights]");
   const hourlySection = document.querySelector("[data-hourly-forecast]");
@@ -235,8 +242,8 @@ export const updateWeather = function (lat, lon) {
   });
 
 
-  
-/* there is a fucking bug here */
+
+
   fetchData(url.forecast(lat, lon), function (forecast) {
     const {
       list: forecastList,
@@ -264,7 +271,7 @@ export const updateWeather = function (lat, lon) {
         dt: dateTimeUnix,
         main: { temp },
         weather,
-        wind: {deg: windDirection, speed: windSpeed }
+        wind: { deg: windDirection, speed: windSpeed }
       } = data
       const [{ icon, description }] = weather
       
@@ -302,7 +309,49 @@ export const updateWeather = function (lat, lon) {
       hourlySection.querySelector("[data-wind]").appendChild(windLi)
     }
 
-  })
+    forecastSection.innerHTML = `
+    <h2 class="title-2" id="forecast-label">5 Days Forecast</h2>
+      <div class="card card-lg forecast-card">
+          <ul data-forecast-card>
+          </ul>
+      </div>
+    `;
+
+    for (let i = 7, len = forecastList.length; i < len; i += 8) {
+      const {
+        main: { temp_max },
+        weather,
+        dt_txt
+      } = forecastList[i]
+      const [{ icon, description }] = weather;
+      const date = new Date(dt_txt);
+
+      const li = document.createElement("li");
+      li.classList.add("card-item");
+
+      li.innerHTML = `
+      <div class="icon-wrapper">
+        <img src="./assets/images/weather_icons/${icon}.png" alt="${description}" width="36" height="36" class="weather-icon" title= "${description}">
+
+        <span class="span">
+            <p class="title-2">${parseInt(temp_max)}&deg</p> 
+        </span>
+      </div>
+
+      <p class="label-1">${date.getDate()} ${module.monthNames[date.getUTCMonth()]}</p>
+
+      <p class="label-1">${module.weekDayNames[date.getUTCDay()]}</p>
+      `;
+
+      forecastSection.querySelector("[data-forecast-card]").appendChild(li)
+
+
+    }
+
+    loading.style.display = "none";
+    container.style.overflowY = "overlay";
+    container.classList.add("fade-in");
+  });
 
 };
 
